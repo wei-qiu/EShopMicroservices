@@ -1,0 +1,9 @@
+Code First Approch
+Migration Plan using Package Manager Console in Visual Studio
+Add-Migration InitialCreate -OutputDir Data/Migration -Project Ordering.Infrastructure -StartupProject Ordering.API
+
+
+
+
+using Dotnet CLI:
+dotnet ef migration add InitialCreate -o Data/Migration, -p Ordering.Infrastructure -s Ordering.API
