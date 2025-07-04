@@ -1,17 +1,17 @@
 ﻿using FluentValidation;
 using Ordering.Application.Dtos;
 
-namespace Ordering.Application.Orders.Commands.CreateOrder
+namespace Ordering.Application.Orders.Commands.UpdateOrder
 {
-	public record CreateOrderCommand(OrderDto Order) : ICommand<CreateOrderResult>;
+	public record UpdateOrderCommand(OrderDto Order) : ICommand<UpdateOrderResult>;
 
-	public record CreateOrderResult(
-		Guid Id
+	public record UpdateOrderResult(
+		bool IsSuccess
 	);
 
-	public class CreateOrderCommandValidator : AbstractValidator<CreateOrderCommand>
+	public class UpdateOrderCommandValidator : AbstractValidator<UpdateOrderCommand>
 	{
-		public CreateOrderCommandValidator()
+		public UpdateOrderCommandValidator()
 		{
 			RuleFor(x => x.Order.OrderName).NotEmpty().WithMessage("Order name is required");
 			RuleFor(x => x.Order.CustomerId).NotNull().WithMessage("CustomerId is required");

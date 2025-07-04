@@ -1,63 +1,51 @@
-﻿using BuildingBlocks.CQRS;
-using Microsoft.EntityFrameworkCore;
-using Ordering.Application.Data;
+﻿using Ordering.Application.Data;
 using Ordering.Domain.Models;
 using Ordering.Domain.ValueObjects;
 
 namespace Ordering.Application.Orders.Commands.CreateOrder
 {
-	public class CreateOrderHandler : ICommandHandler<CreateOrderCommand, CreateOrderResult>
+	public class CreateOrderHandler(IApplicationDbContext dbContext) : ICommandHandler<CreateOrderCommand, CreateOrderResult>
 	{
-		private readonly IApplicationDbContext _dbContext;
-
-		public CreateOrderHandler(IApplicationDbContext dbContext)
-		{
-			_dbContext = dbContext;
-		}
-
-		public async Task<CreateOrderResult> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
+		public async Task<CreateOrderResult> Handle(CreateOrderCommand command, CancellationToken cancellationToken)
 		{
 			// Create order entity from command object  
 			var order = Order.Create(
-					OrderId.Of(request.Order.Id),
-					CustomerId.Of(request.Order.CustomerId),
-					OrderName.Of(request.Order.OrderName),
-					Address.Of(request.Order.ShippingAddress.FirstName, request.Order.ShippingAddress.LastName, request.Order.ShippingAddress.EmailAddress, 
-						request.Order.ShippingAddress.AddressLine, request.Order.ShippingAddress.Country, request.Order.ShippingAddress.State, 
-						request.Order.ShippingAddress.ZipCode),
+					OrderId.Of(Guid.NewGuid()),
+					CustomerId.Of(command.Order.CustomerId),
+					OrderName.Of(command.Order.OrderName),
+					Address.Of(command.Order.ShippingAddress.FirstName, command.Order.ShippingAddress.LastName, command.Order.ShippingAddress.EmailAddress, 
+						command.Order.ShippingAddress.AddressLine, command.Order.ShippingAddress.Country, command.Order.ShippingAddress.State, 
+						command.Order.ShippingAddress.ZipCode),
 					Address.Of(
-						request.Order.BillingAddress.FirstName, 
-						request.Order.BillingAddress.LastName,
-						request.Order.BillingAddress.EmailAddress,
-						request.Order.BillingAddress.AddressLine, 
-						request.Order.BillingAddress.Country, 
-						request.Order.BillingAddress.State,
-						request.Order.BillingAddress.ZipCode),
+						command.Order.BillingAddress.FirstName, 
+						command.Order.BillingAddress.LastName,
+						command.Order.BillingAddress.EmailAddress,
+						command.Order.BillingAddress.AddressLine, 
+						command.Order.BillingAddress.Country, 
+						command.Order.BillingAddress.State,
+						command.Order.BillingAddress.ZipCode),
 					Payment.Of(
-						request.Order.payment.CardNumber,
-						request.Order.payment.CardHolderName, 
-						request.Order.payment.Cvv,
-						request.Order.payment.Expiration, 
-						request.Order.payment.PaymentMethod)					
+						command.Order.Payment.CardNumber,
+						command.Order.Payment.CardName, 
+						command.Order.Payment.Cvv,
+						command.Order.Payment.Expiration, 
+						command.Order.Payment.PaymentMethod)					
 				);
 
-			if(request.Order.OrderItems is not null && request.Order.OrderItems.Any())
+			if(command.Order.OrderItems is not null && command.Order.OrderItems.Any())
 			{
-				foreach (var item in request.Order.OrderItems)
+				foreach (var item in command.Order.OrderItems)
 				{
 					order.Add(ProductId.Of(item.ProductId), item.Quantity, item.Price);
 				}
 			}
 
-
-
-
 			// Save to database  
-			var orders = _dbContext.Orders.Add(order);
-			await _dbContext.SaveChangesAsync(cancellationToken);
+			dbContext.Orders.Add(order);
+			await dbContext.SaveChangesAsync(cancellationToken);
 
 			// Return result with order id  
-			return new CreateOrderResult(orders.Entity.Id.Value);
+			return new CreateOrderResult(order.Id.Value);
 		}
 	}	
 }

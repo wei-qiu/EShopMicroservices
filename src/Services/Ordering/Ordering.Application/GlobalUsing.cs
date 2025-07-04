@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Ordering.Application
-{
-	public class GlobalUsing
-	{
-	}
-}
+﻿global using BuildingBlocks.CQRS;
+global using FluentValidation;
+global using Ordering.Application.Dtos;
+global using MediatR;
+global using Microsoft.Extensions.Logging;
+global using Ordering.Domain.Events;

@@ -1,9 +1,15 @@
 Code First Approch
 Migration Plan using Package Manager Console in Visual Studio
+Install-Package Microsoft.EntityFrameworkCore.Tools
+
 Add-Migration InitialCreate -OutputDir Data/Migration -Project Ordering.Infrastructure -StartupProject Ordering.API
+Update-Database
 
 
 
 
 using Dotnet CLI:
-dotnet ef migration add InitialCreate -o Data/Migration, -p Ordering.Infrastructure -s Ordering.API
+dotnet tool install --global dotnet-ef
+dotnet add package Microsoft.EntityFrameworkCore.Design
+dotnet ef migrations add InitialCreate -o Data/Migration, -p Ordering.Infrastructure -s Ordering.API
+dotnet ef database update

@@ -8,8 +8,8 @@ namespace Ordering.Application.Dtos
 		string OrderName,
 		AddressDto ShippingAddress,
 		AddressDto BillingAddress,
-		PaymentDto payment,
-		OrderStatus status,
+		PaymentDto Payment,
+		OrderStatus Status,
 		List<OrderItemDto> OrderItems
 		);
 
