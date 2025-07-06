@@ -16,8 +16,8 @@ namespace Ordering.Domain.ValueObjects
 			ArgumentNullException.ThrowIfNull(value);
 			if (string.IsNullOrWhiteSpace(value))
 				throw new DomainException("OrderName cannot be empty");
-			if (value.Length > defaultLength)
-				throw new DomainException("OrderName cannot be longer than 5 characters");
+			//if (value.Length > defaultLength)
+			//	throw new DomainException("OrderName cannot be longer than 5 characters");
 			return new OrderName(value);
 		}
 	}

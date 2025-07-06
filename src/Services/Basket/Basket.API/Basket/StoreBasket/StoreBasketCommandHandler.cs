@@ -1,9 +1,4 @@
-﻿using Basket.API.Data;
-using Basket.API.Models;
-using BuildingBlocks.CQRS;
-using FluentValidation;
-using System.Reflection.Metadata.Ecma335;
-using static Discount.Grpc.Discount;
+﻿using static Discount.Grpc.Discount;
 
 namespace Basket.API.Basket.StoreBasket
 {

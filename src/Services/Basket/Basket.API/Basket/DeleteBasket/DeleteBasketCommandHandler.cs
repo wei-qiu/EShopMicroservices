@@ -1,9 +1,4 @@
-﻿using Basket.API.Data;
-using BuildingBlocks.CQRS;
-using FluentValidation;
-using System.Diagnostics.Eventing.Reader;
-
-namespace Basket.API.Basket.DeleteBasket
+﻿namespace Basket.API.Basket.DeleteBasket
 {
 	public record DeleteBasketCommand(string UserName) : ICommand<DeleteBasketResult>;
 

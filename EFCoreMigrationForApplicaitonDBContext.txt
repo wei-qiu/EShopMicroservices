@@ -13,3 +13,6 @@ dotnet tool install --global dotnet-ef
 dotnet add package Microsoft.EntityFrameworkCore.Design
 dotnet ef migrations add InitialCreate -o Data/Migration, -p Ordering.Infrastructure -s Ordering.API
 dotnet ef database update
+
+Manually run docker-compose
+docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d

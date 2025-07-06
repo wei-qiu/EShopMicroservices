@@ -1,9 +1,4 @@
-﻿using Basket.API.Basket.StoreBasket;
-using Carter;
-using Mapster;
-using MediatR;
-using System.Diagnostics.Eventing.Reader;
-
+﻿
 namespace Basket.API.Basket.DeleteBasket
 {
 	public record DeleteBasketRequest(string UserName);

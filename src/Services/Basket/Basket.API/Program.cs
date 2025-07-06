@@ -8,6 +8,7 @@ using HealthChecks.UI.Client;
 using Marten;
 using Microsoft.Extensions.Caching.Distributed;
 using static Discount.Grpc.Discount;
+using BuildingBlocks.Messaging.MassTransit;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -64,6 +65,9 @@ builder.Services.AddGrpcClient<DiscountClient>(options =>
 
 	return handler;
 });
+
+//Async Communication Services, this is message producer so NO assembly object passed in.
+builder.Services.AddMessageBroker(builder.Configuration);
 
 //Cross-cutting services
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
